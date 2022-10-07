@@ -1,0 +1,8 @@
+flutter_native_splash:
+
+  #after any updates to this file
+  # RUN => flutter pub run flutter_native_splash:create --path=native_splash_config.yaml
+
+  color: "#000000"
+  image: assets/logo.png
+  android12: true
