@@ -47,7 +47,6 @@ class QuizController extends GetxController{
     _repository.getAllQuiz().then((value) {
 
       allQuiz(value);
-      _currentQuiz(allQuiz.first);
       _loading(false);
     });
     super.onInit();

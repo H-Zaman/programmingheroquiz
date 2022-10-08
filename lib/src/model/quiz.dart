@@ -13,11 +13,29 @@ class Quiz {
   String correctAnswer;
   int score;
 
-  factory Quiz.fromJson(Map<String, dynamic> json) => Quiz(
-    question: json["question"],
-    answers: json["answers"] as Map<String, dynamic>,
-    questionImageUrl: json["questionImageUrl"],
-    correctAnswer: json["correctAnswer"],
-    score: json["score"],
-  );
+  factory Quiz.fromJson(Map<String, dynamic> json) {
+
+    /// randomizing answers Map
+    Map<String, dynamic> original = json["answers"];
+
+    final randomKeys = json["answers"].keys.toList()..shuffle();
+
+    Map<String, dynamic> randomizedAnswers = {};
+
+    for (var key in randomKeys) {
+      randomizedAnswers.update(
+        key,
+        (existingValue) => original[key],
+        ifAbsent: () => original[key]
+      );
+    }
+
+    return Quiz(
+      question: json["question"],
+      answers: randomizedAnswers,
+      questionImageUrl: json["questionImageUrl"],
+      correctAnswer: json["correctAnswer"],
+      score: json["score"],
+    );
+  }
 }
