@@ -1,12 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:programmingheroquiz/src/controllers/score_controller.dart';
 import 'package:programmingheroquiz/src/screens/home_screen.dart';
-import 'package:programmingheroquiz/src/screens/quiz_screen.dart';
 import 'package:programmingheroquiz/src/utilities/resources/resources.dart';
 import 'package:programmingheroquiz/src/widgets/widgets.dart';
 
-class GameOverScreen extends StatelessWidget {
+class GameOverScreen extends StatefulWidget {
   const GameOverScreen({Key? key}) : super(key: key);
+
+  @override
+  State<GameOverScreen> createState() => _GameOverScreenState();
+}
+
+class _GameOverScreenState extends State<GameOverScreen> {
+
+  ScoreController scoreController = Get.find();
+
+  int userScore = 0;
+  int highestScore = 0;
+
+  @override
+  void initState() {
+    userScore = scoreController.currentScore.value;
+    highestScore = scoreController.userHighestScore.value;
+    super.initState();
+    /// checking and setting highest score
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      scoreController.setNewHighScore();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,14 +44,14 @@ class GameOverScreen extends StatelessWidget {
               )
             ),
             Text(
-              'user_score Point',
+              '$userScore Point',
               style: AppTextStyle.medium(
                 fontSize: 32
               )
             ),
 
             SizedBox(height: 24),
-            Text(
+            if(userScore > highestScore)Text(
               'New highscore achieved!\nCongratulations',
               textAlign: TextAlign.center,
               style: AppTextStyle.medium(
@@ -49,7 +71,7 @@ class GameOverScreen extends StatelessWidget {
               ),
             )
           ],
-        ),
+        )
       ),
     );
   }
